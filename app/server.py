@@ -33,8 +33,8 @@ class ClientProtocol(asyncio.Protocol):
                 else:
                     self.login = login
                     self.transport.write(
-                         f"Привет, {self.login}!\r\n>>> Вот последние сообщения чата:".encode()
-                         )
+                        f"Привет, {self.login}!\r\n>>> Вот последние сообщения чата:".encode()
+                    )
                     self.send_history()
                     self.send_message(f"Пользователь {self.login} зашел в чат")
         else:
