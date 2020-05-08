@@ -33,7 +33,7 @@ class ClientProtocol(asyncio.Protocol):
                 else:
                     self.login = login
                     self.transport.write(
-                         f"Привет, {self.login}!".encode()
+                         f"Привет, {self.login}!\r\n>>> Вот последние сообщения чата:".encode()
                          )
                     self.send_history()
                     self.send_message(f"Пользователь {self.login} зашел в чат")
@@ -55,12 +55,12 @@ class ClientProtocol(asyncio.Protocol):
             )
         else:
             if len(self.server.messages) <= 10:
-                n = 1-len(self.server.messages)
+                n = -len(self.server.messages)
             else:
-                n = -9
-            for i in range(n,0):
+                n = -10
+            for i in range(n, 0):
                 self.transport.write(
-                    f"{self.server.messages[i]}".encode()
+                    f"{self.server.messages[i]}\r\n".encode()
                 )
 
     def connection_made(self, transport: transports.Transport):
@@ -69,6 +69,8 @@ class ClientProtocol(asyncio.Protocol):
         print("Соединение установлено")
 
     def connection_lost(self, exception):
+        if self.login is not None:
+            self.send_message(f"Пользователь {self.login} покинул чат!")
         self.server.clients.remove(self)
         print("Соединение разорвано")
 
