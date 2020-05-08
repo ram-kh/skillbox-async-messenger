@@ -29,7 +29,9 @@ class ClientProtocol(asyncio.Protocol):
                         break
                 if login_exist:
                     self.transport.write(f"Логин {login} занят, попробуйте другой".encode())
-                    self.connection_lost()
+                    self.transport.close()
+#                        connection_lost()
+                    return
                 else:
                     self.login = login
                     self.transport.write(
