@@ -50,9 +50,7 @@ class ClientProtocol(asyncio.Protocol):
 
     def send_history(self):
         if len(self.server.messages) == 0:
-            self.transport.write(
-                f"Сообщений в чате нет!".encode()
-            )
+            self.transport.write(f"Сообщений в чате нет!".encode())
         else:
             if len(self.server.messages) <= 10:
                 n = -len(self.server.messages)
