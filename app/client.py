@@ -35,6 +35,7 @@ class Chat(QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         self.pushButton.clicked.connect(self.send_message)
+        self.lineEdit.returnPressed.connect(self.send_message)
 
     def send_message(self):
         message = self.lineEdit.text()
